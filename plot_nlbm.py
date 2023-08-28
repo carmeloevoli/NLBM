@@ -9,23 +9,23 @@ year = 3.1e7 # s
 Myr = 1e6 * year # s
 pc = 3.1e18 # cm
 kpc = 1e3 * pc # cm
-
 cLight = 3e10 # cm / s
-tau_G = 2. * Myr # s
-tau_0 = 6. * Myr # s
-hdisk = 100. * pc # cm
+
 snrate = 1. / 50 / year # 1/s
+hdisk = 100. * pc # cm
 R_G = 10. * kpc # cm
 V_G = math.pi * np.power(R_G, 2.) * 2. * hdisk # cm^3
 E_0 = 10. # GeV
-sigmaCB = 40e-27 # cm^2
+sigmaCB = 60e-27 # cm^2
 zeta = 0.1
+n_H = 1. # 1/cm^3
+n_c = 50. # 1/cm^3
 
 # Free parameters
-E_CR = 7.0e55 # GeV
+tau_G = 1. * Myr # s
+tau_0 = 0.09 * Myr # s
+E_CR = 1.4e56 # GeV
 p = 2.80
-n_H = 0.8 # 1/cm^3
-n_c = 1.1 # 1/cm^3
 
 def I_H():
     E = np.logspace(0, 4, 1000)
