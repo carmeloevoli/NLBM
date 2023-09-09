@@ -208,7 +208,35 @@ def plot_antiprotons():
     ax.legend(fontsize=30, loc='best')
     plt.savefig('NLBM_ap.pdf')
 
+def plot_antiprotons_ratio():
+    def set_axes(ax):
+        ax.set_xlabel('E [GeV]')
+        #ax.set_xscale('log')
+        ax.set_xlim([1e1, 4e2])
+        ax.set_ylabel(r'ratio')
+        ax.set_ylim([0.2, 0.8])
+        #ax.set_yscale('log')
+
+    fig = plt.figure(figsize=(10.5, 8.5))
+    ax = fig.add_subplot(111)
+    set_axes(ax)
+
+    #ax.fill_between([10,20], 0, 7, color='tab:gray', alpha=0.2)
+
+    plot_data(ax, 'kiss_tables/AMS-02_pbar_e+_rigidity.txt', 0., 1., 'o', 'red', r'$\bar p$/$e^+$', 1)
+    
+    f_He = 1.2
+
+    E, I_c, I_G = I_ap()
+    I_ap_flux = I_c + I_G
+    E, I_c, I_G = I_pos()
+    I_pos_flux = I_c + I_G
+    
+    ax.plot(E, I_ap_flux / I_pos_flux, 'darkorange', linestyle='-')
+
+    ax.legend(fontsize=30, loc='best')
+    plt.savefig('NLBM_ap_ratio.pdf')
+    
 if __name__== "__main__":
     plot_antiprotons()
-    #plot_positrons()
-
+    plot_antiprotons_ratio()
