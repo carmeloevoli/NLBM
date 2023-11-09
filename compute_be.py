@@ -152,7 +152,16 @@ def plot_be():
     tau_G = 1. * Myr
     tau_d = 2. * Myr * (E / 1.)
     ax.plot(E, f * tau_d / (tau_G + tau_d))
-    
+
+    f = 0.35
+    tau_G = 3. * Myr
+    ax.plot(E, f * tau_d / (tau_G + tau_d), linestyle=':')
+
+    f = 0.43
+    tau_G = 9. * Myr
+    ax.plot(E, f * tau_d / (tau_G + tau_d), linestyle=':')
+
+
     ax.legend(fontsize=30, loc='best')
     plt.savefig('NLBM_be.pdf')
   
