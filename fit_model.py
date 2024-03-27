@@ -8,22 +8,28 @@ from dataclasses import dataclass
 import math
 from jacobi import propagate
 
-# FIXED PARAMS
-
-year = 3.1e7 # s
+# UNITS
+year = 3.154e7 # s
 Myr = 1e6 * year # s
-pc = 3.1e18 # cm
+pc = 3.086e18 # cm
 kpc = 1e3 * pc # cm
-cLight = 3e10 # cm / s
-snrate = 1. / 50 / year # 1/s
-hdisk = 100. * pc # cm
+GeV = 0.00160218 # erg
+
+# PHYSICAL CONSTANTS
+c_light = 3e10 # cm s-1
+proton_mass = 1.67262192e-24 # gr
+
+# FIXED PARAMS
+sn_rate = 1. / 50 / year # s-1
+h_disk = 100. * pc # cm
 R_G = 10. * kpc # cm
-V_G = math.pi * np.power(R_G, 2.) * 2. * hdisk # cm^3
-E_0 = 10. # GeV
-sigmaCB = 60e-27 # cm^2
-n_H = 1. # 1/cm^3
-n_c = 50. # 1/cm^3
-E_CR = 1e51 # GeV
+V_G = math.pi * np.power(R_G, 2.) * 2. * h_disk # cm3
+E_0 = 10. * GeV # erg
+E_CR = 1e51 # erg
+sigma_CB = 60e-27 # cm^2
+
+#n_H = 1. # 1/cm^3
+#n_c = 50. # 1/cm^3
 
 def plot_data(ax, filename, slope, norm, fmt, color, label, zorder=1):
     R, y, err_stat_lo, err_stat_up, err_sys_lo, err_sys_up = np.loadtxt(filename,usecols=(0,1,2,3,4,5),unpack=True)
@@ -45,8 +51,8 @@ class InjectionParams:
 
 @dataclass
 class GrammageParams:
-    tauG: float
-    tau0: float
+    XG: float
+    Xc: float
     zeta: float
 
 def primaryModel(E, par):
@@ -215,8 +221,8 @@ def plot_He(initialValues):
     return values
 
 def grammage(E, par):
-    value_G = cLight * sigmaCB * n_H * par.tauG
-    value_c = cLight * sigmaCB * n_c * par.tau0 * np.power(E, -par.zeta * np.log(E))
+    value_G = sigma_CB / proton_mass * par.XG
+    value_c = sigma_CB / proton_mass * par.Xc * np.power(E, -par.zeta * np.log(E))
     return value_c + value_G
 
 def fit_BC(par):
@@ -241,14 +247,14 @@ def fit_BC(par):
                 chi2 += np.power((Y - y_i) / err_lo_i, 2.)
         return chi2
  
-    def chi2_function(tauG, tau0, zeta):
+    def chi2_function(XG, Xc, zeta):
         chi2 = 0.
-        chi2 += experiment_chi2('kiss_tables/AMS-02_B_C_kineticEnergyPerNucleon.txt', GrammageParams(tauG, tau0, zeta), 1.)
-        chi2 += experiment_chi2('kiss_tables/CALET_B_C_kineticEnergyPerNucleon.txt', GrammageParams(tauG, tau0, zeta), 1.)
-        chi2 += experiment_chi2('kiss_tables/DAMPE_B_C_kineticEnergyPerNucleon.txt', GrammageParams(tauG, tau0, zeta), 1.)
+        chi2 += experiment_chi2('kiss_tables/AMS-02_B_C_kineticEnergyPerNucleon.txt', GrammageParams(XG, Xc, zeta), 1.)
+        chi2 += experiment_chi2('kiss_tables/CALET_B_C_kineticEnergyPerNucleon.txt', GrammageParams(XG, Xc, zeta), 1.)
+        chi2 += experiment_chi2('kiss_tables/DAMPE_B_C_kineticEnergyPerNucleon.txt', GrammageParams(XG, Xc, zeta), 1.)
         return chi2
 
-    m = Minuit(chi2_function, tauG=par.tauG, tau0=par.tau0, zeta=par.zeta)
+    m = Minuit(chi2_function, XG=par.XG, Xc=par.Xc, zeta=par.zeta)
     m.errordef = Minuit.LEAST_SQUARES
 
     m.simplex()
@@ -285,30 +291,30 @@ def plot_BC(initialValues):
     ax.plot(E, y, color='tab:purple', zorder=10)
     ax.fill_between(E, (y - ycov), (y + ycov), color='tab:purple', alpha=0.25, zorder=10)
 
-    ax.hlines(cLight * sigmaCB * values.tauG * n_H, 1, 1e5, color='tab:purple', linestyle='--')
+    #ax.hlines(cLight * sigmaCB * values.tauG * n_H, 1, 1e5, color='tab:purple', linestyle='--')
 
     ax.legend(fontsize=18, loc='upper right')
     plt.savefig('NLBM_BC.pdf')
     
-    return values
+    return 0 # values
 
 if __name__== "__main__":
-    chiPar = plot_BC(GrammageParams(Myr, 0.1 * Myr, 0.1))
-    qhPar = plot_H(InjectionParams(30., np.log(1e3), 2.85, 0.25, 0.1, chiPar.tauG))
-    qhePar = plot_He(InjectionParams(2., np.log(1e3), 2.75, 0.25, 0.1, chiPar.tauG))
+    chiPar = plot_BC(GrammageParams(1.5, 5., 0.1))
+    #qhPar = plot_H(InjectionParams(30., np.log(1e3), 2.85, 0.25, 0.1, chiPar.tauG))
+    #qhePar = plot_He(InjectionParams(2., np.log(1e3), 2.75, 0.25, 0.1, chiPar.tauG))
 
-    print(f'tau_G = {chiPar.tauG/Myr:5.3f} Myr')
-    print(f'tau_0 = {chiPar.tau0/Myr:5.3f} Myr')
-    print(f'zeta = {chiPar.zeta:5.3f}')
-    
-    print(f'H_A = {qhPar.A:5.3f}')
-    print(f'H_Eb = {np.exp(qhPar.lnEb):5.3f} GeV')
-    print(f'H_p = {qhPar.p:5.3f}')
-    print(f'H_dp = {qhPar.dp:5.3f}')
-    print(f'H_s = {qhPar.s:5.3f}')
-
-    print(f'He_A = {qhePar.A:5.3f}')
-    print(f'He_Eb = {np.exp(qhePar.lnEb):5.3f} GeV')
-    print(f'He_p = {qhePar.p:5.3f}')
-    print(f'He_dp = {qhePar.dp:5.3f}')
-    print(f'He_s = {qhePar.s:5.3f}')
+#    print(f'tau_G = {chiPar.tauG/Myr:5.3f} Myr')
+#    print(f'tau_0 = {chiPar.tau0/Myr:5.3f} Myr')
+#    print(f'zeta = {chiPar.zeta:5.3f}')
+#    
+#    print(f'H_A = {qhPar.A:5.3f}')
+#    print(f'H_Eb = {np.exp(qhPar.lnEb):5.3f} GeV')
+#    print(f'H_p = {qhPar.p:5.3f}')
+#    print(f'H_dp = {qhPar.dp:5.3f}')
+#    print(f'H_s = {qhPar.s:5.3f}')
+#
+#    print(f'He_A = {qhePar.A:5.3f}')
+#    print(f'He_Eb = {np.exp(qhePar.lnEb):5.3f} GeV')
+#    print(f'He_p = {qhePar.p:5.3f}')
+#    print(f'He_dp = {qhePar.dp:5.3f}')
+#    print(f'He_s = {qhePar.s:5.3f}')
