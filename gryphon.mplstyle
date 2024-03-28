@@ -1,12 +1,12 @@
 #https://matplotlib.org/tutorials/introductory/customizing.html
-axes.labelsize : 30
+axes.labelsize : 31
 axes.labelpad : 10
-axes.linewidth : 1.75
+axes.linewidth : 2.05
 axes.spines.left : True  
 axes.spines.bottom : True
 axes.spines.top : True
 axes.spines.right : True
-axes.titlesize : 27
+axes.titlesize : 28
 axes.formatter.min_exponent : 2
 errorbar.capsize : 3
 figure.autolayout : True
@@ -20,8 +20,8 @@ legend.fontsize : 22
 legend.frameon : False
 legend.numpoints : 1
 legend.loc : best
-lines.linewidth : 3
-lines.markersize : 6
+lines.linewidth : 3.5
+lines.markersize : 6.5
 text.usetex : True
 text.latex.preamble : \usepackage{amsmath}\usepackage{amssymb}
 xtick.direction : in
