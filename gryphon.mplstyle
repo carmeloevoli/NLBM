@@ -20,7 +20,7 @@ legend.fontsize : 22
 legend.frameon : False
 legend.numpoints : 1
 legend.loc : best
-lines.linewidth : 3.5
+lines.linewidth : 3.0
 lines.markersize : 6.5
 text.usetex : True
 text.latex.preamble : \usepackage{amsmath}\usepackage{amssymb}

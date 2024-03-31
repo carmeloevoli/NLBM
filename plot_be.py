@@ -14,7 +14,7 @@ sigma_C9 = 5.7
 sigma_O10 = 2.4
 sigma_O9 = 3.9
 f_OC = 0.9
-
+    
 def plot_data(ax, filename, zorder=1):
     label = 'AMS-02 2023 (preliminary)'
     color = 'crimson'
