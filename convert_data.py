@@ -61,5 +61,14 @@ def convert_data():
     data[3] *= 4.
     dump_data('DAMPE_He.txt', data)
     
+    data = get_data('kiss_tables/AMS-02_pbar_rigidity.txt', 10.)
+    dump_data('AMS-02_pbar.txt', data)
+
+    data = get_data('kiss_tables/AMS-02_e+_rigidity.txt', 10.)
+    dump_data('AMS-02_pos.txt', data)
+
+    data = get_data('kiss_tables/AMS-02_pbar_e+_rigidity.txt', 10.)
+    dump_data('AMS-02_pbar_pos.txt', data)
+
 if __name__== "__main__":
     convert_data()
