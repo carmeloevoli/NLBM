@@ -184,7 +184,7 @@ def plot_antimatter(grammage_params, H_params, He_params):
 
     E = np.logspace(1, 3, 200)
     
-    f_ap = 2.5
+    f_ap = 2.0
     
     I_G, I_c = model_antiprotons(E, grammage_params, H_params, He_params)
     ax.plot(E, np.power(E, 2.8) * f_ap * (I_G + I_c), 'darkorange', linestyle='-')
@@ -222,7 +222,7 @@ def plot_antimatter_cocoon(grammage_params, H_params, He_params):
 
     E = np.logspace(1, 3, 200)
     
-    f_ap = 2.5
+    f_ap = 2.0
     
     I_G, I_c = model_antiprotons(E, grammage_params, H_params, He_params)
     ax.plot(E, np.power(E, 2.8) * f_ap * (I_G + I_c), 'darkorange', linestyle='-')

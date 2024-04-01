@@ -33,7 +33,7 @@ def dsigmadE_ap(method='linear'):
     return pp_i, pHe_i, Hep_i, HeHe_i
 
 def dsigmadE_pos(method='linear'):
-    Eproj_table, Epbar_table, pp_table, pHe_table, Hep_table, HeHe_table = np.loadtxt('tables/supplementary_table_positrons_best_fit.dat', usecols=(0,1,2,3,8,9), unpack=True)
+    Eproj_table, Epbar_table, pp_table, pHe_table, Hep_table, HeHe_table = np.loadtxt('tables/supplementary_table_positrons_best_fit.txt', usecols=(0,1,2,3,8,9), unpack=True)
 
     projectile_kinetic_energy = np.linspace(np.log10(0.1), np.log10(1e6), 140)
     secondary_kinetic_energy = np.linspace(np.log10(0.01), np.log10(1e4), 90)
