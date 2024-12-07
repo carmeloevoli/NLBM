@@ -1,9 +1,11 @@
 import matplotlib
 matplotlib.use('MacOSX')
 import matplotlib.pyplot as plt
-plt.style.use('gryphon.mplstyle')
+plt.style.use('scripts/gryphon.mplstyle')
 import numpy as np
 import math
+
+# https://docs.scipy.org/doc/scipy/tutorial/interpolate/smoothing_splines.html
 
 #from scipy.integrate import quad
 from scipy.interpolate import RegularGridInterpolator
@@ -70,7 +72,7 @@ def test_apxsec():
     ax = fig.add_subplot(111)
     set_axes(ax)
     
-    dsdE_pp, dsdE_phe, dsdE_hep, dsdE_hehe = dsigmadE_pos('cubic')
+    dsdE_pp, dsdE_phe, dsdE_hep, dsdE_hehe = dsigmadE_pos('pchip')
 
     Ep = 1e3
     x = np.logspace(-4, 0, 1000)
@@ -96,7 +98,7 @@ def test_apxsec():
 
     #
     
-    dsdE_pp, dsdE_phe, dsdE_hep, dsdE_hehe = dsigmadE_ap('cubic')
+    dsdE_pp, dsdE_phe, dsdE_hep, dsdE_hehe = dsigmadE_ap('linear')
 
     Ep = 1e3
     x = np.logspace(-4, 0, 1000)
