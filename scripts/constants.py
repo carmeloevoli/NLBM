@@ -17,7 +17,7 @@ ME_C2 = 0.511e-3  # GeV
 SIGMA_THOMSON = 6.6524e-25  # cm^2
 U_CMB = 0.25e-9  # GeV / cm^3
 
-# FIXED PARAMETERS
+# FIXED PARAMETERS  
 SN_RATE = 1. / 50 / YEAR  # s^-1
 DISK_HEIGHT = 100. * PC  # cm
 GALACTIC_RADIUS = 10. * KPC  # cm
@@ -27,7 +27,11 @@ E_CR = 1e51 * ERG_TO_GEV  # GeV
 
 # CROSS-SECTIONS
 F_HE = 1.4
-SIGMA_OC = 60. * MBARN  # cm^2
-SIGMA_OB = 37. * MBARN  # cm^2
-SIGMA_CB = 71. * MBARN  # cm^2
+SIGMA_OC  = 60. * MBARN  # cm^2
+SIGMA_OB  = 37. * MBARN  # cm^2
+SIGMA_CB  = 71. * MBARN  # cm^2
+SIGMA_O10 = 4. * MBARN  # cm^2
+SIGMA_O9  = 3. * MBARN  # cm^2
+SIGMA_C10 = 4. * MBARN  # cm^2
+SIGMA_C9  = 7. * MBARN  # cm^2
 #N_H = 0.5  # cm^-3

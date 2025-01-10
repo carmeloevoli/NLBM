@@ -60,7 +60,7 @@ def sum_sigma(data, projectile, fragments):
     return total_sigma
 
 if __name__ == "__main__":
-    file_path = 'crxsecs_fragmentation_Evoli2019_cumulative.txt'
+    file_path = '../tables/crxsecs_fragmentation_Evoli2019_cumulative.txt'
     #file_path = 'sigProdWebber03+Coste12.txt'
     data = read_and_label_fragments(file_path)
 

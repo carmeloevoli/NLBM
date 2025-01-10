@@ -26,7 +26,7 @@ def plot_NLBM_BC(params):
     
     # Add text annotations
     ax.text(.9e3, 0.077, r'$\chi_{\rm G} = 1$ gr/cm$^2$', color='tab:red', fontsize=25)
-    ax.text(20, 0.20, r'$\chi_{\rm c,0} = 2.7$ gr/cm$^2$', color='tab:red', fontsize=25)
+    ax.text(20, 0.20, r'$\chi_{\rm c,0} = 2.8$ gr/cm$^2$', color='tab:red', fontsize=25)
 
     # Show legend and save figure
     ax.legend(fontsize=22, loc='upper right')
@@ -61,15 +61,15 @@ def plot_CO(params):
     set_axes(ax, xlabel='E [GeV/n]', ylabel='C/O', xscale='log', xlim=[10, 2.5e3], ylim=[0.7, 1.2])
 
     # Plot data for C/O ratio from various sources
-    plot_data(ax, 'AMS-02_CO_R.txt', 0., 1., 'o', 'tab:gray', 'AMS-02', 1)
-    plot_data(ax, 'CALET_CO_Ekn.txt', 0., 1., 'o', 'r', 'CALET', 2)
+    plot_data(ax, 'AMS-02_CO_R.txt', 0., 1., 'o', 'tab:blue', 'AMS-02', 1)
+    plot_data(ax, 'CALET_CO_Ekn.txt', 0., 1., 'o', 'tab:green', 'CALET', 2)
 
     # Generate and plot the model curve
     E = np.logspace(1, 4, 1000)
     y = model_CO(E, params)
-    ax.plot(E, y, color='b', lw=3, zorder=10)
+    ax.plot(E, y, color='tab:red', lw=3, zorder=10)
 
-    ax.text(20, 0.77, r'f$_{C/O} = 0.85$', color='b', fontsize=25)
+    ax.text(20, 0.82, r'f$_{C/O} = 0.9$', color='tab:red', fontsize=25)
 
     # Show legend and save figure
     ax.legend(fontsize=22, loc='upper left')
@@ -105,9 +105,10 @@ def plot_grammage(params):
 
 if __name__ == "__main__":
     # Initial guess for the parameters
-    params = [1.059, 2.671, 0.182, 0.853]
+    #params = [1.059, 2.671, 0.182, 0.853]
+    params = [1.080, 2.758, 0.184, 0.894]
     plot_NLBM_BC(params)
-    params = [4.751, 0.473, 251.901, 0.854]
-    plot_HM_BC(params)
-    #plot_CO(params)
+    plot_CO(params)
+    #params = [4.751, 0.473, 251.901, 0.854]
+    #plot_HM_BC(params)
     #plot_grammage(params)

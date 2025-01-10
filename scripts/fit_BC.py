@@ -1,14 +1,16 @@
 import numpy as np
 from iminuit import Minuit
-import math
 
 import constants
+
+def grammage_critical(A: float) -> float:
+    sigma = 45. * constants.MBARN * np.power(A, 0.67)
+    return constants.PROTON_MASS / sigma
 
 def grammage(energy, A, params):
     XG, Xc0, zeta, fCO = params
     Xc = Xc0 * np.power(energy / 10., -zeta * np.log(energy))
-    sigma_in_A = 45. * constants.MBARN * np.power(A, 2. / 3.) # To Be Checked
-    Xcr = constants.PROTON_MASS / sigma_in_A
+    Xcr = grammage_critical(A)
     factor_G = XG / (1. + XG / Xcr)
     factor_c = Xc / (1. + Xc / Xcr)
     return factor_G + factor_c
@@ -24,6 +26,16 @@ def model_CO(energy, params):
     XG, Xc0, zeta, fCO = params
     factor = constants.SIGMA_OC / constants.PROTON_MASS
     return fCO + factor * grammage(energy, 12., params)
+
+def model_BeRatio(energy, tau_G, params):
+    """Calculate the model for Be10/Be9."""
+    XG, Xc0, zeta, fCO = params
+    factor = (constants.SIGMA_O10 + fCO * constants.SIGMA_C10) / (constants.SIGMA_O9 + fCO * constants.SIGMA_C9)
+    X10 = grammage_critical(10)
+    X9 = grammage_critical(9)
+    tau_d = 2. * constants.MYR * (energy / constants.MP_C2)
+    y = tau_G / tau_d
+    return factor * (1. + XG / X9) / (1. + XG / X10 + y)
 
 def X2tau(X):
     n_G = 0.5 # cm-3
@@ -67,8 +79,8 @@ def chi2_function(XG, Xc, zeta, fCO):
         chi2 += experiment_chi2(model_BC, filename, [XG, Xc, zeta, fCO])
     
     # C/O datasets
-    co_files = ['../data/CALET_CO_Ekn.txt'] 
-                # '../data/AMS-02_CO_R.txt']
+    #co_files = ['../data/CALET_CO_Ekn.txt'] 
+    co_files = ['../data/AMS-02_CO_R.txt']
     
     for filename in co_files:
         chi2 += experiment_chi2(model_CO, filename, [XG, Xc, zeta, fCO])
@@ -99,5 +111,5 @@ def fit_BC(initial_params):
 
 if __name__ == "__main__":
     # Initial guess for the parameters
-    initial_guess = [.1, 3., 0.1, 1.]
+    initial_guess = [1., 3., 0.1, 1.]
     fit_BC(initial_guess)
