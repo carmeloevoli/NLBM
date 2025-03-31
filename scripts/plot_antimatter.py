@@ -7,6 +7,7 @@ from scipy import integrate
 
 from utils import set_axes, plot_data, savefig
 from fit_phe import model_primary
+from plot_losses import tau_loss
 
 import constants
 
@@ -119,10 +120,11 @@ def model_positrons(energy, doBreak = True, doLosses = True):
     value_c /= constants.PROTON_MASS
     
     tau_G = 1. # Myr
-    tau_loss = 0.5 * (1e3 / energy) # Myr
+    #tau_loss = 0.45 * (1e3 / energy) # Myr
+    tau_l = tau_loss(energy, 1e-6) / constants.MYR # Myr
 
     if doLosses:
-        y = np.power(1. + tau_G / tau_loss, -1.) 
+        y = np.power(1. + tau_G / tau_l, -1.) 
     else:
         y = 1.
 
@@ -243,6 +245,6 @@ def plot_antimatter_comparison():
     savefig(fig, 'NLBM_antimatter_HM.pdf')
 
 if __name__ == "__main__":
-    #plot_antimatter()
-    #plot_antimatter_ratio()
-    plot_antimatter_comparison()
+    plot_antimatter()
+    plot_antimatter_ratio()
+    #plot_antimatter_comparison()
