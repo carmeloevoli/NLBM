@@ -25,8 +25,8 @@ def plot_NLBM_BC(params):
     ax.hlines(y[-1], 1, 1e5, color='tab:red', linestyle=':', zorder=10)
     
     # Add text annotations
-    ax.text(.9e3, 0.077, r'$\chi_{\rm G} = 1$ gr/cm$^2$', color='tab:red', fontsize=25)
-    ax.text(20, 0.20, r'$\chi_{\rm c,0} = 2.8$ gr/cm$^2$', color='tab:red', fontsize=25)
+    ax.text(.9e3, 0.077, r'$\chi_{\rm G} = 1.1$ g/cm$^2$', color='tab:red', fontsize=25)
+    ax.text(20, 0.20, r'$\chi_{\rm c,0} = 2.76$ g/cm$^2$', color='tab:red', fontsize=25)
 
     # Show legend and save figure
     ax.legend(fontsize=22, loc='upper right')
@@ -49,7 +49,7 @@ def plot_HM_BC(params):
     
     # Add text annotations
     ax.text(3e2, 0.087, r'$E_{\rm b} = 250$ GeV', color='tab:red', fontsize=25)
-    ax.text(20, 0.20, r'$\chi_{G,0} = 4.7$ gr/cm$^2$', color='tab:red', fontsize=25)
+    ax.text(20, 0.20, r'$\chi_{G,0} = 4.7$ g/cm$^2$', color='tab:red', fontsize=25)
 
     # Show legend and save figure
     ax.legend(fontsize=22, loc='upper right')
@@ -69,7 +69,7 @@ def plot_CO(params):
     y = model_CO(E, params)
     ax.plot(E, y, color='tab:red', lw=3, zorder=10)
 
-    ax.text(20, 0.82, r'f$_{C/O} = 0.9$', color='tab:red', fontsize=25)
+    ax.text(20, 0.82, r'f$_{\text{C}/\text{O}} = 0.89$', color='tab:red', fontsize=25)
 
     # Show legend and save figure
     ax.legend(fontsize=22, loc='upper left')
@@ -89,7 +89,7 @@ def plot_grammage(params):
         return XG
 
     fig, ax = plt.subplots(figsize=(10.5, 8.5))
-    set_axes(ax, xlabel='E [GeV/n]', ylabel=r'Grammage [gr cm$^{-2}$]', xscale='log', xlim=[1e1, 1e4], ylim=[0.8, 5.0])
+    set_axes(ax, xlabel='E [GeV/n]', ylabel=r'Grammage [g cm$^{-2}$]', xscale='log', xlim=[1e1, 1e4], ylim=[0.8, 5.0])
 
     E = np.logspace(1, 4, 1000)
 
