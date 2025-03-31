@@ -16,6 +16,7 @@ MP_C2 = 0.938  # GeV
 ME_C2 = 0.511e-3  # GeV
 SIGMA_THOMSON = 6.6524e-25  # cm^2
 U_CMB = 0.25e-9  # GeV / cm^3
+K_BOLTZMANN = 8.617e-14  # GeV / K
 
 # FIXED PARAMETERS  
 SN_RATE = 1. / 50 / YEAR  # s^-1
