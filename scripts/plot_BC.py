@@ -15,8 +15,8 @@ def plot_NLBM_BC(params):
 
     # Plot data for B/C ratio from various sources
     plot_data(ax, 'AMS-02_BC_Ekn.txt', 0., 1., 'o', 'tab:blue', 'AMS-02', 1)
-    plot_data(ax, 'DAMPE_BC_Ekn.txt', 0., 1., 'o', 'tab:green', 'CALET', 3)
-    plot_data(ax, 'CALET_BC_Ekn.txt', 0., 1., 'o', 'tab:brown', 'DAMPE', 2)
+    plot_data(ax, 'CALET_BC_Ekn.txt', 0., 1., 'o', 'tab:green', 'CALET', 3)
+    plot_data(ax, 'DAMPE_BC_Ekn.txt', 0., 1., 'o', 'tab:brown', 'DAMPE', 2)
 
     # Generate and plot the model curve
     E = np.logspace(1, 4, 1000)
@@ -39,8 +39,8 @@ def plot_HM_BC(params):
 
     # Plot data for B/C ratio from various sources
     plot_data(ax, 'AMS-02_BC_Ekn.txt', 0., 1., 'o', 'tab:blue', 'AMS-02', 1)
-    plot_data(ax, 'DAMPE_BC_Ekn.txt', 0., 1., 'o', 'tab:green', 'CALET', 3)
-    plot_data(ax, 'CALET_BC_Ekn.txt', 0., 1., 'o', 'tab:brown', 'DAMPE', 2)
+    plot_data(ax, 'CALET_BC_Ekn.txt', 0., 1., 'o', 'tab:green', 'CALET', 3)
+    plot_data(ax, 'DAMPE_BC_Ekn.txt', 0., 1., 'o', 'tab:brown', 'DAMPE', 2)
 
     # Generate and plot the model curve
     E = np.logspace(1, 4, 1000)
