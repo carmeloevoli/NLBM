@@ -70,7 +70,7 @@ def model_antiprotons(energy, doBreak = True):
     
     return value_G, value_c
 
-def model_positrons(energy, doBreak = True, doLosses = True):
+def model_positrons(energy, tau_G = 1., doBreak = True, doLosses = True):
     from get_antimatter_xsecs import dsigmadE_ap, dsigmadE_pos
     pos_interpolators = dsigmadE_pos('cubic')
     pp_xsec = pos_interpolators["pp"]
@@ -119,7 +119,6 @@ def model_positrons(energy, doBreak = True, doLosses = True):
         value_c[i] = integrate.quad(integrand_qc, lgEmin, lgEmax, args=(energy[i]))[0]
     value_c /= constants.PROTON_MASS
     
-    tau_G = 1. # Myr
     #tau_loss = 0.45 * (1e3 / energy) # Myr
     tau_l = tau_loss(energy, 1e-6) / constants.MYR # Myr
 
@@ -146,8 +145,11 @@ def plot_antimatter():
     y_G, y_c = model_antiprotons(E, doBreak=True)
     ax.plot(E, np.power(E, 2.8) * fudge * (y_G + y_c), color='tab:red', lw=3, zorder=10)
 
-    y_G, y_c = model_positrons(E, doBreak=True, doLosses=True)
+    y_G, y_c = model_positrons(E, tau_G=1, doBreak=True, doLosses=True)
     ax.plot(E, np.power(E, 2.8) * fudge * (y_G + y_c), color='tab:purple', lw=3, zorder=10)
+
+    y_G, y_c = model_positrons(E, tau_G=10, doBreak=True, doLosses=True)
+    ax.plot(E, np.power(E, 2.8) * fudge * (y_G + y_c), color='tab:green', lw=3, zorder=10)
 
     # Dashed: with break and no losses
     y_G, y_c = model_antiprotons(E, doBreak=True)
@@ -168,7 +170,32 @@ def plot_antimatter():
 
     # Show legend and save figure
     ax.legend(fontsize=22, loc='upper left')
-    savefig(fig, 'NLBM_antimatter.pdf')
+    savefig(fig, 'NLBM_antimatter_10.pdf')
+
+def plot_antimatter_taug():
+    fig, ax = plt.subplots(figsize=(10.5, 8.5))
+    set_axes(ax, xlabel='E [GeV]', ylabel='E$^{2.8}$ I [GeV$^{1.8}$ m$^{-2}$ s$^{-1}$ sr$^{-1}$]', xscale='log', xlim=[2e1, 1e3], ylim=[0.1, 10.])
+    
+    # Plot data for positrons and antiprotons from AMS-02
+    plot_data(ax, 'AMS-02_e+_Ek.txt', 2.8, 1., 'o', 'tab:blue', r'$e^+$', 3)
+    #plot_data(ax, 'AMS-02_pbar_Ek.txt', 2.8, 1., 'o', 'tab:orange', r'$\bar p$', 3)
+    
+    # Generate and plot the model curve
+    E = np.logspace(1, 3, 100) # GeV
+    fudge = 2.1
+
+    y_G, y_c = model_positrons(E, tau_G=1., doBreak=True, doLosses=True)
+    ax.plot(E, np.power(E, 2.8) * fudge * (y_G + y_c), color='tab:purple', lw=3, zorder=10, label='1 Myr')
+
+    y_G, y_c = model_positrons(E, tau_G=2., doBreak=True, doLosses=True)
+    ax.plot(E, np.power(E, 2.8) * fudge * (y_G + y_c), color='tab:brown', lw=3, zorder=10, label='2 Myr')
+
+    y_G, y_c = model_positrons(E, tau_G=5., doBreak=True, doLosses=True)
+    ax.plot(E, np.power(E, 2.8) * fudge * (y_G + y_c), color='tab:red', lw=3, zorder=10, label='5 Myr')
+
+    # Show legend and save figure
+    ax.legend(fontsize=20, loc='best')
+    savefig(fig, 'NLBM_antimatter_taug.pdf')
 
 def plot_antimatter_ratio():
     fig, ax = plt.subplots(figsize=(10.5, 8.5))
@@ -247,4 +274,5 @@ def plot_antimatter_comparison():
 if __name__ == "__main__":
     plot_antimatter()
     plot_antimatter_ratio()
+    # plot_antimatter_taug()
     #plot_antimatter_comparison()
